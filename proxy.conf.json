@@ -1,0 +1,16 @@
+{
+  "/api/*": {
+    "target": "http://localhost:4000",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/ws": {
+    // Try standalone WS in dev first
+    "target": "http://localhost:4001",
+    "ws": true,
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

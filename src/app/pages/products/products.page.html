@@ -1,0 +1,76 @@
+<section>
+  <h2>Products from Firebase Firestore</h2>
+  <p>Real-time database with caching and WebSocket invalidation.</p>
+
+  <div class="actions">
+    <button (click)="refresh()">Manual refresh</button>
+    <button (click)="forceRefresh()">Force cache refresh</button>
+  </div>
+
+  <!-- Add Product Form -->
+  <div class="add-product-form">
+    <h3>Add New Product</h3>
+    <form (submit)="create($event)">
+      <div class="form-row">
+        <input placeholder="Product Name" [(ngModel)]="formName" name="name" required />
+        <input
+          placeholder="Description"
+          [(ngModel)]="formDescription"
+          name="description"
+          required
+        />
+      </div>
+      <div class="form-row">
+        <input
+          type="number"
+          placeholder="Price"
+          [(ngModel)]="formPrice"
+          name="price"
+          step="0.01"
+          required
+        />
+        <input placeholder="Currency" [(ngModel)]="formCurrency" name="currency" value="USD" />
+      </div>
+      <div class="form-row">
+        <input type="number" placeholder="Stock" [(ngModel)]="formStock" name="stock" value="0" />
+        <input
+          type="number"
+          placeholder="Rating (0-5)"
+          [(ngModel)]="formRating"
+          name="rating"
+          min="0"
+          max="5"
+          step="0.1"
+          value="0"
+        />
+      </div>
+      <div class="form-row">
+        <input placeholder="Category" [(ngModel)]="formCategory" name="category" value="General" />
+        <input placeholder="Brand" [(ngModel)]="formBrand" name="brand" value="Unknown" />
+      </div>
+      <button type="submit" class="btn-add">Add Product</button>
+    </form>
+  </div>
+
+  <div *ngIf="loading()" class="loading">Loading products...</div>
+
+  <div *ngIf="!loading() && products().length === 0" class="empty">No products found</div>
+
+  <div *ngIf="!loading() && products().length > 0" class="products-grid">
+    <div *ngFor="let p of products()" class="product-card">
+      <h3>{{ p.name }}</h3>
+      <p class="description">{{ p.description }}</p>
+      <div class="price">{{ p.price | currency : p.currency }}</div>
+      <div class="details">
+        <span class="brand">{{ p.brand }}</span>
+        <span class="category">{{ p.category }}</span>
+        <span class="stock">Stock: {{ p.stock }}</span>
+        <span class="rating">⭐ {{ p.rating }}</span>
+      </div>
+      <div class="actions">
+        <button (click)="update(p)" class="btn-update">Update</button>
+        <button (click)="remove(p)" class="btn-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</section>
